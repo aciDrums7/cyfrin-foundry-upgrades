@@ -15,7 +15,7 @@ contract BoxV2 is Initializable, OwnableUpgradeable, UUPSUpgradeable {
     }
 
     /**
-     * @notice initialize is like constructor for proxy
+     * @notice initiali ze is like constructor for proxy
      */
     function initialize() public initializer {
         // whatever logic needed
@@ -24,14 +24,16 @@ contract BoxV2 is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         __UUPSUpgradeable_init();
     }
 
-    function setNumber(uint256 _number) external {}
+    function setNumber(uint256 _number) external {
+        number = _number;
+    }
 
     function getNumber() external view returns (uint256) {
         return number;
     }
 
     function version() external pure returns (uint256) {
-        return 1;
+        return 2;
     }
 
     /**

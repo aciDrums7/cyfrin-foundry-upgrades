@@ -3,9 +3,9 @@
 pragma solidity ^0.8.20;
 
 import {Script} from "forge-std/Script.sol";
-import {BoxV2} from "../src/BoxV2.sol";
-import {BoxV1} from "../src/BoxV1.sol";
 import {DevOpsTools} from "foundry-devops/src/DevOpsTools.sol";
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {BoxV2} from "../src/BoxV2.sol";
 
 contract UpgradeBox is Script {
     function run() external returns (address) {
@@ -20,7 +20,7 @@ contract UpgradeBox is Script {
 
     function upgradeBox(address proxyAddress, address newImpl) public returns (address) {
         vm.startBroadcast();
-        BoxV1 proxy = BoxV1(proxyAddress);
+        UUPSUpgradeable proxy = UUPSUpgradeable(proxyAddress);
         //? ERC1967Proxy and UUPSUpgradeable contracts refer to ERC1967Utils library to get and set contract proxy implementations.
         proxy.upgradeToAndCall(newImpl, new bytes(0)); // proxy contract now points to this new address
         vm.stopBroadcast();
